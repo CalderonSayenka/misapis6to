@@ -7,7 +7,7 @@ export default class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || 3000;
-        this.generalRoute = '/api';
+        this.generalRoute = '/api/';
 
         // Conectar a la base de datos
         this.conectarDBMongo();
@@ -36,12 +36,10 @@ export default class Server {
         this.app.use(express.static('public'));
     }
 
-    routes() {
-        // Rutas principales
+    routes(){
+        //Rutas principales
         this.app.use(this.generalRoute, indexRoutes);
-
-        //  esto esta mal creo ( talves sea use en ves de all)
-        this.app.use('', (req, res) => {
+        this.app.use((req, res) => {
             res.status(404).json({
                 msg: 'Ruta no encontrada'
             });

@@ -1,18 +1,18 @@
 import { Router } from "express";
-import {
-  obtenerRelojes,
-  obtenerRelojPorId,
-  crearReloj,
-  actualizarReloj,
-  eliminarReloj,
+import { 
+  getAllRelojes,
+  getRelojById,
+  postReloj,
+  putReloj,
+  deleteReloj
 } from "../controllers/reloj.controller.js";
 
-const router = Router();
+const reloj = Router();
 
-router.get("/", obtenerRelojes);
-router.get("/relojes/:id", obtenerRelojPorId);
-router.post("/", crearReloj);
-router.put("/:id", actualizarReloj);
-router.delete("/:id", eliminarReloj);
+reloj.get("/", getAllRelojes);
+reloj.get("/:id", getRelojById);
+reloj.post("/", postReloj);
+reloj.put("/:id", putReloj);
+reloj.delete("/:id", deleteReloj);
 
-export default router;
+export default reloj;

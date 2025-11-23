@@ -1,57 +1,118 @@
 import Reloj from "../models/reloj.model.js";
+import mongoose from "mongoose";
+import express from 'express';
 
-// Obtener todos los relojes
-export const obtenerRelojes = async (req, res) => {
-  try {
-    const relojes = await Reloj.find();
-    res.json(relojes);
-  } catch (error) {
-    res.status(500).json({ message: "Error al obtener los relojes", error });
-  }
-};
-// Obtener relojes por id
-export const obtenerRelojPorId = async (req, res) => {
-  try {
-    const reloj = await Reloj.findById(req.params.id);
+// GET TODOS LOS RELOJES
+export const getAllRelojes = async (req, res) => {
+    console.log("GET TODOS LOS RELOJES");
 
-    if (!reloj) {
-      return res.status(404).json({ message: "Reloj no encontrado" });
+    try {
+        const relojes = await Reloj.find({}, { __v: 0 });
+
+        if (relojes.length === 0) {
+            return res.status(404).json({ msg: "No se encontraron relojes" });
+        }
+
+        return res.status(200).json({ relojes });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Error al obtener los relojes" });
     }
-
-    res.json(reloj);
-  } catch (error) {
-    res.status(500).json({ message: "Error al obtener el reloj", error });
-  }
-};
-// Crear un nuevo reloj
-export const crearReloj = async (req, res) => {
-  try {
-    const nuevoReloj = new Reloj(req.body);
-    await nuevoReloj.save();
-    res.status(201).json(nuevoReloj);
-  } catch (error) {
-    res.status(400).json({ message: "Error al crear el reloj", error });
-  }
 };
 
-// Actualizar un reloj por ID
-export const actualizarReloj = async (req, res) => {
-  try {
-    const relojActualizado = await Reloj.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.json(relojActualizado);
-  } catch (error) {
-    res.status(400).json({ message: "Error al actualizar el reloj", error });
-  }
+// GET RELOJ POR ID
+export const getRelojById = async (req, res) => {
+    console.log("GET RELOJ POR ID");
+    const id = req.params.id;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "ID no válido" });
+        }
+
+        const reloj = await Reloj.findById(id);
+
+        if (!reloj) {
+            return res.status(404).json({ msg: "Reloj no encontrado" });
+        }
+
+        return res.status(200).json({ reloj });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Error al obtener el reloj" });
+    }
 };
 
-// Eliminar un reloj
-export const eliminarReloj = async (req, res) => {
-  try {
-    await Reloj.findByIdAndDelete(req.params.id);
-    res.json({ message: "Reloj eliminado correctamente" });
-  } catch (error) {
-    res.status(500).json({ message: "Error al eliminar el reloj", error });
-  }
+// POST CREAR RELOJ
+export const postReloj = async (req, res) => {
+    console.log("POST RELOJ");
+    const body = req.body;
+    const reloj = new Reloj(body);
+
+    try {
+        // Validación manual por si hay campos incorrectos
+        const validationError = reloj.validateSync();
+        if (validationError) {
+            const errorMessages = Object.values(validationError.errors).map(
+                (err) => err.message
+            );
+            return res.status(400).json({ error: errorMessages });
+        }
+
+        await reloj.save();
+        return res.status(201).json({ reloj });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Error al guardar el reloj" });
+    }
+};
+
+// PUT ACTUALIZAR RELOJ
+export const putReloj = async (req, res) => {
+    console.log("PUT RELOJ");
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "ID no válido" });
+        }
+
+        const reloj = await Reloj.findByIdAndUpdate(id, body, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!reloj) {
+            return res.status(404).json({ msg: "Reloj no encontrado" });
+        }
+
+        return res.status(200).json({ reloj });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Error al actualizar el reloj" });
+    }
+};
+
+// DELETE ELIMINAR RELOJ
+export const deleteReloj = async (req, res) => {
+    console.log("DELETE RELOJ");
+    const id = req.params.id;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "ID no válido" });
+        }
+
+        const reloj = await Reloj.findByIdAndDelete(id);
+
+        if (!reloj) {
+            return res.status(404).json({ msg: "Reloj no encontrado" });
+        }
+
+        return res.status(200).json({ msg: "Reloj eliminado", reloj });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ msg: "Error al eliminar el reloj" });
+    }
 };
