@@ -9,7 +9,20 @@ export const obtenerRelojes = async (req, res) => {
     res.status(500).json({ message: "Error al obtener los relojes", error });
   }
 };
+// Obtener relojes por id
+export const obtenerRelojPorId = async (req, res) => {
+  try {
+    const reloj = await Reloj.findById(req.params.id);
 
+    if (!reloj) {
+      return res.status(404).json({ message: "Reloj no encontrado" });
+    }
+
+    res.json(reloj);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener el reloj", error });
+  }
+};
 // Crear un nuevo reloj
 export const crearReloj = async (req, res) => {
   try {
