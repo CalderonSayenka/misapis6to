@@ -13,6 +13,10 @@ const relojSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  imagen: {
+    type: String,      
+    required: false,
+  },
   caracteristicas: {
     type: [String],
     required: false,
