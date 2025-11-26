@@ -1,0 +1,133 @@
+/* ==== HERO CARRUSEL ==== */
+
+#carouselId {
+  height: 420px !important;       /* altura fija del carrusel */
+  overflow: hidden;
+}
+
+#carouselId .carousel-inner {
+  height: 100%;                   /* obligar a ocupar todo */
+}
+
+#carouselId .carousel-item {
+  height: 100% !important;        /* bloquea los cambios de tamaño */
+  position: relative;
+}
+
+#carouselId .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* recorta sin deformar */
+  object-position: center;
+  display: block;
+}
+
+/* TOAST MINIMALISTA */
+.toast {
+  border-radius: 12px !important;
+  padding: 10px 16px;
+  font-size: 15px;
+  opacity: 0.95;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+
+.toast.bg-success {
+  background: rgba(25, 135, 84, 0.9) !important;
+}
+
+.toast.bg-danger {
+  background: rgba(220, 53, 69, 0.9) !important;
+}
+
+.toast.bg-warning {
+  background: rgba(255, 193, 7, 0.9) !important;
+}
+
+.btn-close-white {
+  filter: brightness(0) invert(1);
+}
+
+/* Modal confirmación elegante */
+.confirm-modal {
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+
+.confirm-modal h5 {
+  font-weight: 600;
+}
+
+.confirm-modal p {
+  font-size: 14px;
+}
+
+
+/*detalle modal*/
+.detalle-modal {
+  border-radius: 20px !important;
+  padding: 15px;
+}
+
+.detalle-img {
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.detalle-title {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.detalle-sub {
+  font-size: 14px;
+  color: #666;
+}
+
+.badge-detalle {
+  background: #f0f0f0;
+  color: #333;
+  padding: 6px 10px;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+/*busqueda*/
+.search-item {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.search-item:hover {
+  background: #f0f0f0;
+}
+
+.search-item img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#search-suggestions .search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+#search-suggestions .search-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+#search-suggestions .search-item:hover {
+  background: #f5f5f5;
+}

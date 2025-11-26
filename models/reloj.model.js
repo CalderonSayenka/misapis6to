@@ -27,7 +27,7 @@ const relojSchema = new mongoose.Schema({
   },
   empresa: {
     type: String,
-    default: "TechTime Inc.",
+    default: "Whatches Lux Inc.",
   },
 });
 
